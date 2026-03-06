@@ -12,11 +12,17 @@ public class Greninja {
     int width;
     int height;
     Rectangle hitbox;
+    boolean readytoplay;
     boolean isalive = true;
     boolean up = false;
     boolean down = false;
     boolean left = false;
     boolean right = false;
+
+    int currenthealth;
+    int attack1;
+    int attack2;
+    int attackSpecial;
 
     public Greninja() {
         this.hitbox = new Rectangle(this.xpos, this.ypos, this.width, this.height);

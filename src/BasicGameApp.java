@@ -12,7 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
+import java.awt.Dimension;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
@@ -20,7 +23,7 @@ import java.awt.image.BufferStrategy;
 
 
 
-public class BasicGameApp implements Runnable, KeyListener {
+public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 
     //Sets the width and height of the program window
     final int WIDTH = 1000;
@@ -37,59 +40,113 @@ public class BasicGameApp implements Runnable, KeyListener {
     Greninja greninja = new Greninja();
     Image background;
 
-
-    public electing(){
-        boolean selectScreen = true;
-
-    }
-
-
-
-
-
-
-
-
-
-
-
+    boolean fight = false;
 
 
     // Initialize your variables and construct your program objects here.
-    public BasicGameApp() { // BasicGameApp constructor
+    public BasicGameApp() {// BasicGameApp constructor
         setUpGraphics();
-        mario = new Mario(500,350,10,10,50,50);
-        mario.name = "Mario Mario";
-        mario.aliveimage = Toolkit.getDefaultToolkit().getImage("mariogame2.png");
-
-        greninja = new Greninja(200,300,10,10,50,50);
-        greninja.name = "Greninja Greninja";
-        greninja.aliveimage = Toolkit.getDefaultToolkit().getImage("greninjagame2.png");
-
-
-        bowser = new  Bowser(600,100,7,7,100,100);
-        Bowser.name = "Bowser Bowser";
-        Bowser.aliveimage = Toolkit.getDefaultToolkit().getImage("bowsergame2.png");
-
-        background=Toolkit.getDefaultToolkit().getImage("supersmash.png");
-
-
-
-
-
+        screenselect();
 
 
         //variable and objects
         //create (construct) the objects needed for the game
 
+    }
+
+    public void screenselect() {
+        setUpGraphics();
+        mario.isalive=true;
+        mario = new Mario(600, 250, 0, 0, 200, 200);
+        mario.name = "Mario Mario";
+        mario.aliveimage = Toolkit.getDefaultToolkit().getImage("mariogame2.png");
+
+        greninja.isalive=true;
+        greninja = new Greninja(200, 250, 0, 0, 200, 200);
+        greninja.name = "Greninja Greninja";
+        greninja.aliveimage = Toolkit.getDefaultToolkit().getImage("greninjagame2.png");
+
+        bowser.isalive=false;
+
+        background = Toolkit.getDefaultToolkit().getImage("selectscreen.jpg");
+
+    }
+
+
+    public void startFight(){
+        fight = true;
+
+
+        if (mario.readytoplay == true) {
+
+            mario.xpos=200;
+            mario.ypos=275;
+            mario.dx=10;
+            mario.dy=10;
+            mario.width=50;
+            mario.height=50;
+            mario.name = "Mario Mario";
+            mario.aliveimage = Toolkit.getDefaultToolkit().getImage("mariogame2.png");
+            mario.currenthealth=3000;
+            mario.attack1=100;
+            mario.attack2=300;
+            mario.attackSpecial=600;
+
+
+            bowser = new Bowser(600, 230, 7, 7, 100, 100);
+            Bowser.name = "Bowser Bowser";
+            Bowser.aliveimage = Toolkit.getDefaultToolkit().getImage("bowsergame2.png");
+            bowser.currenthealth=5000;
+
+            background = Toolkit.getDefaultToolkit().getImage("supersmash.png");
+        }
+
+
+        if (greninja.readytoplay == true) {
+
+            greninja.xpos=200;
+            greninja.ypos=275;
+            greninja.dx=10;
+            greninja.dy=10;
+            greninja.width=50;
+            greninja.height=50;
+            greninja.name = "Greninja Greninja";
+            greninja.aliveimage = Toolkit.getDefaultToolkit().getImage("greninjagame2.png");
+            greninja.currenthealth=1500;
+
+            bowser = new Bowser(600, 230, 7, 7, 100, 100);
+            Bowser.name = "Bowser Bowser";
+            Bowser.aliveimage = Toolkit.getDefaultToolkit().getImage("bowsergame2.png");
+            bowser.currenthealth=5000;
+
+            background = Toolkit.getDefaultToolkit().getImage("supersmash.png");
+
+        }
+
 
 
 
 
     }
+
+    public void healthbar(){
+
+    }
+
+
     // end BasicGameApp constructor
 
     public void moveThings() {
+        if (fight) {
+            mario.move();
+            greninja.move();
+            bowser.move();
+        }
+
+
+
+
+
         //call the move() code for each object  -
 
     }
@@ -99,35 +156,57 @@ public class BasicGameApp implements Runnable, KeyListener {
         Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
+        if (fight == true && mario.isalive==true){
+            g.setColor(Color.red);
+            g.fillRect(40,40,100,30);
+
+            g.setColor(Color.green);
+            g.fillRect(40,40, mario.currenthealth, 30);
+        }
+
+        if (fight == true && greninja.isalive==true){
+            g.setColor(Color.blue);
+            g.fillRect(40,40,100,30);
+
+            g.setColor(Color.red);
+            g.fillRect(40,40, greninja.currenthealth, 30);
+        }
+
+        if (fight == true ){
+            g.setColor(Color.yellow);
+            g.fillRect(40,40,100,30);
+
+            g.setColor(Color.red);
+            g.fillRect(40,40, bowser.currenthealth, 30);
+        }
 
 
         //draw the images
         // Signature: drawImage(Image img, int x, int y, int width, int height, ImageObserver observer)
 
         g.drawImage(background,0,0,1000,700,null);
-        g.drawImage(mario.aliveimage,mario.xpos,mario.ypos, mario.width, mario.height, null);
-        if (mario.isalive == false) {
-            mario.aliveimage = Toolkit.getDefaultToolkit().getImage("gravestone.png");
-            ;
-            mario.dx = 0;
-            mario.dy = 0;
+
+        if (fight == false){
+            g.drawImage(mario.aliveimage,mario.xpos,mario.ypos, mario.width, mario.height, null);
+            g.drawImage(greninja.aliveimage,greninja.xpos,greninja.ypos, greninja.width, greninja.height, null);
         }
 
-        g.drawImage(bowser.aliveimage,bowser.xpos,bowser.ypos, bowser.width, bowser.height, null);
-        if (bowser.isalive == false) {
-            bowser.aliveimage = Toolkit.getDefaultToolkit().getImage("gravestone.png");
-            ;
-            bowser.dx = 0;
-            bowser.dy = 0;
+
+       if (fight==true && mario.readytoplay== true){
+           g.drawImage(mario.aliveimage,mario.xpos,mario.ypos, mario.width, mario.height, null);
+       }
+        if (fight==true && greninja.readytoplay== true){
+            g.drawImage(greninja.aliveimage,greninja.xpos,greninja.ypos, greninja.width, greninja.height, null);
         }
 
-        g.drawImage(greninja.aliveimage,greninja.xpos,greninja.ypos, greninja.width, greninja.height, null);
-        if (greninja.isalive == false) {
-            greninja.aliveimage = Toolkit.getDefaultToolkit().getImage("gravestone.png");
-            ;
-            greninja.dx = 0;
-            greninja.dy = 0;
+        if (fight==true){
+            g.drawImage(bowser.aliveimage,bowser.xpos,bowser.ypos, bowser.width, bowser.height, null);
         }
+
+
+
+
+
 
 
 
@@ -160,7 +239,7 @@ public class BasicGameApp implements Runnable, KeyListener {
     // PSVM: This is the code that runs first and automatically
     public static void main(String[] args) {
         BasicGameApp ex = new BasicGameApp();
-        Selecting
+
         //creates a new instance of the game
         new Thread(ex).start();                 //creates a threads & starts up the code in the run( ) method
     }
@@ -173,6 +252,7 @@ public class BasicGameApp implements Runnable, KeyListener {
             moveThings();  //move all the game objects
             render();  // paint the graphics
             pause(10); // sleep for 10 ms
+            healthbar();
         }
     }
 
@@ -201,6 +281,8 @@ public class BasicGameApp implements Runnable, KeyListener {
         canvas = new Canvas();
         canvas.setBounds(0, 0, WIDTH, HEIGHT);
         canvas.setIgnoreRepaint(true);
+        canvas.addMouseListener(this);
+        canvas.addKeyListener(this);
 
         panel.add(canvas);  // adds the canvas to the panel.
 
@@ -229,19 +311,47 @@ public class BasicGameApp implements Runnable, KeyListener {
 
             if (key == 65){//a is pressed
                 mario.right = true;
+                greninja.right=true;
 
             }
             if (key==87){
                 mario.up = true;
+                greninja.up=true;
             }
 
             if (key == 83){
                 mario.down = true;
+                greninja.down=true;
             }
 
             if (key == 68){
                 mario.left = true;
+                greninja.left=true;
             }
+
+            if (key == 73 && mario.isalive==true && fight == true){
+                bowser.currenthealth=bowser.currenthealth- mario.attack1;
+            }
+
+            if (key == 79 && mario.isalive==true && fight == true) {
+                bowser.currenthealth = bowser.currenthealth - mario.attack2;
+            }
+            if (key == 80 && mario.isalive==true && fight == true) {
+                bowser.currenthealth = bowser.currenthealth - mario.attackSpecial;
+            }
+
+        if (key == 73 && greninja.isalive==true && fight == true){
+            bowser.currenthealth=bowser.currenthealth- greninja.attack1;
+        }
+
+        if (key == 79 && greninja.isalive==true && fight == true) {
+            bowser.currenthealth = bowser.currenthealth - greninja.attack2;
+        }
+        if (key == 80 && greninja.isalive==true && fight == true) {
+            bowser.currenthealth = bowser.currenthealth - greninja.attackSpecial;
+        }
+
+
 
 
 
@@ -255,18 +365,70 @@ public class BasicGameApp implements Runnable, KeyListener {
         int key = e.getKeyCode();
         if (key == 65){//a is pressed
             mario.right = false;
+            greninja.right=false;
         }
         if (key==87){
             mario.up = false;
+            greninja.up=false;
         }
         if (key == 83){
             mario.down = false;
+            greninja.down=false;
         }
         if (key == 68){
             mario.left = false;
+            greninja.left=false;
         }
 
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+
+        if (fight == false) {
+            if (mario.hitbox.contains(mouseX, mouseY)) {
+                mario.readytoplay = true;
+                greninja.readytoplay = false;
+                startFight();
+                System.out.println("Mario Selected");
+
+
+            } else if (greninja.hitbox.contains(mouseX, mouseY)) {
+                greninja.readytoplay = true;
+                mario.readytoplay = false;
+                startFight();
+                System.out.println("Greninja Selected");
+
+            }
+
+        }
+
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 }

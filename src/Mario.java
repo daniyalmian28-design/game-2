@@ -13,10 +13,17 @@ public class Mario {
     int height;
     Rectangle hitbox;
     boolean isalive = true;
+    boolean readytoplay;
     boolean up = false;
     boolean down = false;
     boolean left = false;
     boolean right = false;
+
+    int currenthealth;
+    int attack1;
+    int attack2;
+    int attackSpecial;
+
 
     public Mario() {
         this.hitbox = new Rectangle(this.xpos, this.ypos, this.width, this.height);

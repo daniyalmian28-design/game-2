@@ -18,6 +18,8 @@ public class Bowser {
     boolean left = false;
     boolean right = false;
 
+    int currenthealth;
+
     public Bowser() {
         this.hitbox = new Rectangle(this.xpos, this.ypos, this.width, this.height);
     }
