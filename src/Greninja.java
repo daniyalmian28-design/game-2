@@ -1,5 +1,6 @@
 import java.awt.*;
-
+//this is the code for mario projectile 1 - there is absolutely nothing unique about this code.
+// it is standard movement, (dx dy) position, is alive, hitbox, etc- Daniyal
 public class Greninja {
     String name;
     Image aliveimage;
@@ -23,6 +24,7 @@ public class Greninja {
     int attack1;
     int attack2;
     int attackSpecial;
+    int scaled;
 
     public Greninja() {
         this.hitbox = new Rectangle(this.xpos, this.ypos, this.width, this.height);
@@ -38,7 +40,7 @@ public class Greninja {
         this.hitbox = new Rectangle(this.xpos, this.ypos, this.width, this.height);
     }
 
-    public void move() {
+    public void move() { //details how projectile moves using dx (horizontal speed) and dy (vertical movement)
         if (this.up) {
             this.ypos -= (int)this.dy;
         }

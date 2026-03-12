@@ -1,8 +1,9 @@
 import java.awt.*;
-
+//this is the code for mario projectile 1 - there is absolutely nothing unique about this code.
+// it is standard movement, (dx dy) position, is alive, hitbox, etc- Daniyal
 public class Bowser {
-    static String name;
-    static Image aliveimage;
+     String name;
+     Image aliveimage;
     Image deadimage;
     int xpos;
     int ypos;
@@ -11,12 +12,13 @@ public class Bowser {
     double dy;
     int width;
     int height;
-    Rectangle hitbox;
+     Rectangle hitbox;
     boolean isalive = true;
     boolean up = false;
     boolean down = false;
     boolean left = false;
     boolean right = false;
+
 
     int currenthealth;
 
@@ -34,7 +36,7 @@ public class Bowser {
         this.hitbox = new Rectangle(this.xpos, this.ypos, this.width, this.height);
     }
 
-    public void move() {
+    public void move() { //details how projectile moves using dx (horizontal speed) and dy (vertical movement)
         if (this.up) {
             this.ypos -= (int)this.dy;
         }
@@ -51,13 +53,13 @@ public class Bowser {
             this.xpos -= (int)this.dx;
         }
 
-        if (this.xpos >= 1000) {
+        if (this.xpos >= 1000) { //restricts horizontal movement
             this.dx = -this.dx;
         } else if (this.xpos <= 0) {
             this.dx = -this.dx;
         }
 
-        if (this.ypos >= 700) {
+        if (this.ypos >= 700) { //restricts vertical movement
             this.dy = -this.dy;
         } else if (this.ypos <= 0) {
             this.dy = -this.dy;
