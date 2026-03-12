@@ -338,22 +338,22 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
             g.drawImage(ProjectileSpecialmario.image, ProjectileSpecialmario.xpos, ProjectileSpecialmario.ypos, ProjectileSpecialmario.width, ProjectileSpecialmario.height, null);
         }
 
-        if (projectileBowser != null){
+        if (projectileBowser != null&&!gameover){
             projectileBowser.move();
         }
-        if (projectileBowser2 != null){
+        if (projectileBowser2 != null&&!gameover){
             g.drawImage(projectileBowser2.image, projectileBowser2.xpos,projectileBowser2.ypos,projectileBowser2.height,projectileBowser2.width, null);
         }
-        if (projectileBowser3 != null){
+        if (projectileBowser3 != null&&!gameover){
             g.drawImage(projectileBowser3.image, projectileBowser3.xpos,projectileBowser3.ypos,projectileBowser3.height,projectileBowser3.width, null);
         }
-        if (projectileBowser4 != null){
+        if (projectileBowser4 != null&&!gameover){
             g.drawImage(projectileBowser4.image, projectileBowser4.xpos,projectileBowser4.ypos,projectileBowser4.height,projectileBowser4.width, null);
         }
-        if (projectileBowser5 != null){
+        if (projectileBowser5 != null&&!gameover){
             g.drawImage(projectileBowser5.image, projectileBowser5.xpos,projectileBowser5.ypos,projectileBowser5.height,projectileBowser5.width, null);
         }
-        if (projectileBowser6 != null){
+        if (projectileBowser6 != null&&!gameover){
             g.drawImage(projectileBowser6.image, projectileBowser6.xpos,projectileBowser6.ypos,projectileBowser6.height,projectileBowser6.width, null);
         }
 
